@@ -9,10 +9,10 @@
     android:orientation="vertical">
 
     <!--タブをインクルードする-->
-    <!--<include layout="@layout/tab_layout" android:id="@+id/tab"
-        android:visibility="invisible"/>
--->
-<LinearLayout
+    <include layout="@layout/tab_layout" android:id="@+id/tab"
+        android:visibility="visible"/>
+
+<!--<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="left"
@@ -43,14 +43,15 @@
             android:background="@color/colorDitail"
             android:layout_marginLeft="5dp"/>
     </LinearLayout>
-</LinearLayout>
+</LinearLayout>-->
 
     <android.support.v4.view.ViewPager
 
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--<android.support.v4.view.PagerTitleStrip
+        <!--Pagerタイトルバーを出さないようにする
+        <android.support.v4.view.PagerTitleStrip
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
