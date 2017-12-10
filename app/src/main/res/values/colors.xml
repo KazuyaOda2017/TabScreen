@@ -6,4 +6,6 @@
     <color name="colorComent">#99ccff</color>
     <color name="colorDitail">#ffcc66</color>
     <color name="colorTabBack">#339900</color>
+    <color name="White">#ffffff</color>
+    <color name="Bule">#0000FF</color>
 </resources>
