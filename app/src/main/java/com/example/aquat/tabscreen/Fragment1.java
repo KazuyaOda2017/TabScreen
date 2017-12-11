@@ -17,7 +17,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +39,8 @@ public class Fragment1 extends Fragment {
 
     protected int selectStar;
 
+    protected UserInfo userInfo;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -44,8 +48,13 @@ public class Fragment1 extends Fragment {
         //レイアウトを取得
         layout = inflater.inflate(R.layout.fragment1, null);
 
+        //ユーザー情報の作成
+        userInfo = new UserInfo();
+        userInfo.setUserId(1);
+        userInfo.setUserName("K.Oda");
+
         //アダプターの作成
-        adapter = new CommentListAdapter(getContext());
+        adapter = new CommentListAdapter(getContext(),userInfo);
 
         //region ListViewの設定
         //ListView生成
@@ -102,6 +111,12 @@ public class Fragment1 extends Fragment {
                 cInfo.setUserCmt(inputStr);
                 cInfo.setStar(selectStar);
                 cInfo.setUserName("K.Oda");
+                cInfo.setUserID(1);
+                //日付を取得
+                Date date = new Date();
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                String date1 = sdf1.format(date);
+                cInfo.setInsertDate(date1);
 
                 //コメントを追加する
                 adapter.add(cInfo);

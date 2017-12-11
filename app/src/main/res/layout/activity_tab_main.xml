@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.aquat.tabscreen.TabMainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:id="@+id/main_layout"
+    >
 
     <!--タブをインクルードする-->
     <include layout="@layout/tab_layout" android:id="@+id/tab"
@@ -49,7 +52,8 @@
 
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
         <!--Pagerタイトルバーを出さないようにする
         <android.support.v4.view.PagerTitleStrip
             android:layout_width="match_parent"

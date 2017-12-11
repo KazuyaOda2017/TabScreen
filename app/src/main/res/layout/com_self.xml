@@ -14,10 +14,12 @@
     <!--user情報を表示-->
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="right"
+        android:gravity="bottom"
+        android:layout_gravity="right"
         android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="vertical">
 
         <include
@@ -36,17 +38,19 @@
         </LinearLayout>
 -->
         <TextView
-
+            android:gravity="right"
             android:id="@+id/user_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black" />
 
         <TextView
+            android:gravity="right"
             android:id="@+id/insert_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="10sp"/>
     </LinearLayout>
     <!--コメントを表示-->
     <LinearLayout
@@ -66,6 +70,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_balloon"
             android:maxWidth="200dp"
+            android:minHeight="60dp"
             android:padding="8dp"
             android:textColor="@android:color/black"
             android:textSize="14sp" />

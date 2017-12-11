@@ -19,10 +19,12 @@ import android.widget.TextView;
 public class CommentListAdapter extends ArrayAdapter<CommentInfo> {
 
     LayoutInflater mInflater;
+    protected UserInfo userInfo;
 
-    public CommentListAdapter(@NonNull Context context) {
+    public CommentListAdapter(@NonNull Context context,UserInfo userInfo) {
         super(context,0);
         mInflater = LayoutInflater.from(context);
+        this.userInfo = userInfo;
     }
 
     //タップアクションを無効にする
@@ -39,7 +41,13 @@ public class CommentListAdapter extends ArrayAdapter<CommentInfo> {
 
         //レイアウトを取得
         if(convertView == null){
-            convertView = mInflater.inflate(R.layout.com_self,parent,false);
+            //自分のコメントかどうか
+            if(info.getUserID() != userInfo.getUserId()){
+                convertView = mInflater.inflate(R.layout.cmt_other,parent,false);
+            }else {
+                convertView = mInflater.inflate(R.layout.com_self,parent,false);
+            }
+
         }
 
         if(info != null){
