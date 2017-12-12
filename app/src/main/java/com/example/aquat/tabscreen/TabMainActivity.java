@@ -3,6 +3,7 @@ package com.example.aquat.tabscreen;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -58,13 +59,15 @@ public class TabMainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_main);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(
-                new TabFragmentAdapter(
-                        getSupportFragmentManager()));
 
         //ユーザー情報を受け取る
         userInfo = (UserInfo)getIntent().getSerializableExtra("userInfo");
+
+       //アダプター作成
+        TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(),userInfo);
+
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(adapter);
 
         //Json →　デシリアライズ
         String jsonStr = "[{\"cacthCopy\":\"MAHOT COFFEEの想いが詰まったブレンド\",\"ditail\":\"しっかりとしたビターなコクがあり、赤ワインのような上品なボディー。アクセントに完熟したチェリーのような風味がアフターテイストで楽しめます。,●●●●○,●●○○○,●●○○○,\\\\700\\/100ｇ　\\\\1300\\/200ｇ,\\\\370,\\\\370\",\"productName\":\"MAHOT ブレンド　SONE\"},{\"cacthCopy\":\"当店の新提案。「甘み」を楽しめるコーヒー\",\"ditail\":\"ハチミツのような甘味と紅茶のような風味、やわらかい酸味は、爽やかな朝を演出する一杯にふさわしいコーヒー,●●●○○,●●●○○,●●●●○,\\\\750\\/100ｇ　\\\\1400\\/200ｇ,\\\\370,\\\\370\",\"productName\":\"MAHOT ブレンド　SWEET\"},{\"cacthCopy\":\"焙煎機で焼き上げた特製のミックスナッツ\",\"ditail\":\"この焙煎機の特徴でもある排気の調整によりまるで燻製ナッツのような、ほのかに香るコーヒーの香りをお楽しみいただけます。またナッツとコーヒー豆を一緒に召し上がっていただくと香りの相乗効果でより一層お楽しみいただけます。\\u000a,-,-,-,\\\\500\\/80ｇ,-,-\",\"productName\":\"ミックスナッツ in コーヒー豆\"}]";
@@ -74,13 +77,6 @@ public class TabMainActivity extends FragmentActivity {
             e.printStackTrace();
         }
 
-        String commentjsonStr = "{\"commentDataList\":[{\"insertDate\":\"2017.11.25\",\"sex\":0,\"star\":5,\"userCmt\":\"美味しかった\",\"userId\":1,\"userName\":\"小田\"},{\"insertDate\":\"2017.12.1\",\"sex\":0,\"star\":3,\"userCmt\":\"苦かった\",\"userId\":2,\"userName\":\"田中\"},{\"insertDate\":\"2017.12.5\",\"sex\":0,\"star\":2,\"userCmt\":\"いまいち\",\"userId\":3,\"userName\":\"中橋\"},{\"insertDate\":\"2017.12.4\",\"sex\":0,\"star\":4,\"userCmt\":\"また来ます\",\"userId\":4,\"userName\":\"中野\"},{\"insertDate\":\"2017.12.5\",\"sex\":1,\"star\":1,\"userCmt\":\"まぁまぁ\",\"userId\":5,\"userName\":\"溝辺\"}],\"offset\":0,\"totalNumber\":5}";
-        try {
-            commentData = objectMapper.readValue(commentjsonStr,CommentJson.class);
-
-        }catch (Exception e){
-
-        }
 
 
         inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

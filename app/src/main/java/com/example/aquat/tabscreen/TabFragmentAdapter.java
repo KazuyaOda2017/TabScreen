@@ -11,9 +11,12 @@ import android.support.v4.view.ViewPager;
 
 public class TabFragmentAdapter extends FragmentStatePagerAdapter {
 
+    protected  UserInfo userInfo;
 
-    public TabFragmentAdapter(FragmentManager fm) {
+
+    public TabFragmentAdapter(FragmentManager fm,UserInfo userInfo) {
         super(fm);
+        this.userInfo = userInfo;
     }
 
 
@@ -23,7 +26,10 @@ public class TabFragmentAdapter extends FragmentStatePagerAdapter {
         switch (position)
         {
             case 0:
-                return new Fragment1();
+                Fragment1 fragment1 = new Fragment1();
+                fragment1.userInfo = this.userInfo;
+
+                return fragment1;
             case 1:
                 return new Fragment2();
                 default:
@@ -31,6 +37,8 @@ public class TabFragmentAdapter extends FragmentStatePagerAdapter {
         }
 
     }
+
+
 
     @Override
     public int getCount() {

@@ -39,47 +39,64 @@ public class CommentListAdapter extends ArrayAdapter<CommentInfo> {
         //コメント情報を取得
         CommentInfo info = getItem(position);
 
+        //Viewが再利用可能かどうか
+        if(convertView != null){
+
+            int id = (int)convertView.getTag();
+            if(id == info.userId) {
+
+                //同じIDなら再利用
+                return  convertView;
+            }
+
+        }
+
         //レイアウトを取得
-        if(convertView == null){
+        //if(convertView == null){
             //自分のコメントかどうか
-            if(info.getUserID() != userInfo.getUserId()){
+            if(info.userId != userInfo.getUserId()){
                 convertView = mInflater.inflate(R.layout.cmt_other,parent,false);
             }else {
                 convertView = mInflater.inflate(R.layout.com_self,parent,false);
             }
 
-        }
+                if(info != null){
 
-        if(info != null){
+                    //コメント作成
+                    TextView tv = (TextView)convertView.findViewById(R.id.cmt);
+                    tv.setText(info.userCmt);
+                    //評価を設定
+                    ViewGroup vg = (ViewGroup)convertView.findViewById(R.id.stars_mini);
 
-            //コメント作成
-            TextView tv = (TextView)convertView.findViewById(R.id.cmt_self);
-            tv.setText(info.getComment());
-            //評価を設定
-            ViewGroup vg = (ViewGroup)convertView.findViewById(R.id.stars_mini);
+                    //LinearLayout linearLayout = (LinearLayout)convertView.findViewById(R.id.starsmini_line2);
+                    //linearLayout.setGravity(Gravity.RIGHT);
+                    for(int i = 0;i< 5;i++){
 
-            //LinearLayout linearLayout = (LinearLayout)convertView.findViewById(R.id.starsmini_line2);
-            //linearLayout.setGravity(Gravity.RIGHT);
-            for(int i = 0;i< 5;i++){
+                        ImageButton imageButton = (ImageButton)vg.getChildAt(i);
 
-               ImageButton imageButton = (ImageButton)vg.getChildAt(i);
+                        if(i < info.star) {
+                            imageButton.setImageResource(R.drawable.star_on);
+                        }else{
+                            imageButton.setImageResource(R.drawable.star_off);
+                        }
+                    }
+                    //ユーザー名
+                    TextView userName = (TextView)convertView.findViewById(R.id.user_name);
+                    userName.setText(info.userName);
 
-                if(i < info.getStar()) {
-                    imageButton.setImageResource(R.drawable.star_on);
-                }else{
-                    imageButton.setImageResource(R.drawable.star_off);
+                    //登録日
+                    TextView insertDate = (TextView)convertView.findViewById(R.id.insert_date);
+                    insertDate.setText(info.insertDate);
+
+                    //タグにIDを登録する
+                    convertView.setTag(info.userId);
+
                 }
-            }
-            //ユーザー名
-            TextView userName = (TextView)convertView.findViewById(R.id.user_name);
-            userName.setText(info.getUserName());
-
-            //登録日
-            TextView insertDate = (TextView)convertView.findViewById(R.id.insert_date);
-            insertDate.setText(info.getInsertDate());
 
 
-        }
+
+       //; }
+
 
         return convertView;
     }

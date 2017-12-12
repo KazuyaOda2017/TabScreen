@@ -15,27 +15,11 @@ public class CommentJson {
 
     public int offset;
 
-    public List<CommentData> commentDataList;
+    public List<CommentInfo> dispList;
 
     public CommentJson() {
-        commentDataList = new ArrayList<CommentData>();
+        dispList = new ArrayList<CommentInfo>();
 
     }
 }
 
-class CommentData{
-
-    public int userId;
-
-    public String userName;
-
-    public int sex;
-
-    public String userCmt;
-
-    public int star;
-
-    public String insertDate;
-
-
-}

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +42,14 @@ public class Fragment1 extends Fragment {
 
     protected int selectStar;
 
-    protected UserInfo userInfo;
+    private SwipeRefreshLayout mSwipeRefresh;
+
+    //ユーザー情報
+    public UserInfo userInfo;
+    //コメントデータ
+    public CommentJson commentData;
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -49,12 +59,17 @@ public class Fragment1 extends Fragment {
         layout = inflater.inflate(R.layout.fragment1, null);
 
         //ユーザー情報の作成
-        userInfo = new UserInfo();
+       /* userInfo = new UserInfo();
         userInfo.setUserId(1);
-        userInfo.setUserName("K.Oda");
+        userInfo.setUserName("K.Oda");*/
 
         //アダプターの作成
         adapter = new CommentListAdapter(getContext(),userInfo);
+
+        //コメントデータの取得
+        getCommentData();
+        //取得コメントを表示する
+        setCmtDataTimeLine(this.commentData);
 
         //region ListViewの設定
         //ListView生成
@@ -64,6 +79,21 @@ public class Fragment1 extends Fragment {
         listView.setPadding(10,10,10,10);
         //アダプターをセット
         listView.setAdapter(adapter);
+        //endregion
+
+        //region SwipeRefreshの設定
+        mSwipeRefresh = (SwipeRefreshLayout)layout.findViewById(R.id.swipe_refresh) ;
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // 引っ張って離した時に呼ばれます。
+                //loadData();
+                ReloadCommentData();
+
+
+
+            }
+        });
         //endregion
 
         //コメント入力エリアの設定
@@ -95,7 +125,7 @@ public class Fragment1 extends Fragment {
         });
         //endregion
 
-        //region　送信ボタン
+        //region 送信ボタン
         submitBtn = (ImageButton)layout.findViewById(R.id.submit_btn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,8 +137,8 @@ public class Fragment1 extends Fragment {
                 if(!checkInputText(inputStr)) return;
 
                 //コメント情報を作成
-                CommentInfo cInfo = new CommentInfo();
-                cInfo.setUserCmt(inputStr);
+                /* CommentInfo cInfo = new CommentInfo();
+               cInfo.setUserCmt(inputStr);
                 cInfo.setStar(selectStar);
                 cInfo.setUserName("K.Oda");
                 cInfo.setUserID(1);
@@ -119,7 +149,7 @@ public class Fragment1 extends Fragment {
                 cInfo.setInsertDate(date1);
 
                 //コメントを追加する
-                adapter.add(cInfo);
+                adapter.add(cInfo);*/
 
                 //スクロールを一番下へ
                int itemCount = listView.getCount();
@@ -180,6 +210,7 @@ public class Fragment1 extends Fragment {
 
     }
 
+    //region 評価ボタン入れ替え処理
     private void ChangeStarImage(int posision) {
 
         for(int i = 0; i < starBtnList.size();i++){
@@ -207,7 +238,9 @@ public class Fragment1 extends Fragment {
         // if(posision == 5) return;
 
     }
+    //endregion
 
+    //region テキスト入力チェック
     private boolean checkInputText(String str) {
         boolean result = true;
         if(str.trim().equals("")){
@@ -215,4 +248,82 @@ public class Fragment1 extends Fragment {
         }
         return result;
     }
+    //endregion
+
+    //region コメントデータ取得処理
+    private boolean getCommentData(){
+
+        try{
+
+            //コメントデータを取得してフィールドに投げる
+            String commentjsonStr = "{\"dispList\":[{\"insertDate\":\"2017.11.25\",\"sex\":0,\"star\":5,\"userCmt\":\"美味しかった\",\"userId\":1,\"userName\":\"小田\"},{\"insertDate\":\"2017.12.1\",\"sex\":0,\"star\":3,\"userCmt\":\"苦かった\",\"userId\":2,\"userName\":\"田中\"},{\"insertDate\":\"2017.12.5\",\"sex\":0,\"star\":2,\"userCmt\":\"いまいち\",\"userId\":3,\"userName\":\"中橋\"},{\"insertDate\":\"2017.12.4\",\"sex\":0,\"star\":4,\"userCmt\":\"また来ます\",\"userId\":4,\"userName\":\"中野\"},{\"insertDate\":\"2017.12.5\",\"sex\":1,\"star\":1,\"userCmt\":\"まぁまぁ\",\"userId\":5,\"userName\":\"溝辺\"}],\"offset\":0,\"totalNumber\":5}";
+            try {
+                commentData = objectMapper.readValue(commentjsonStr,CommentJson.class);
+
+            }catch (Exception e){
+
+            }
+
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
+
+    }
+    //endregion
+
+    //region コメント表示処理
+    private void setCmtDataTimeLine(CommentJson commentData){
+
+        //コメントの数だけアダプターに追加
+        for(CommentInfo info:commentData.dispList){
+            adapter.add(info);
+        }
+
+    }
+    //endregion
+
+    //region コメントデータの追加読み込み
+    private boolean ReloadCommentData(){
+        try{
+
+            //追加取得のデータ
+            String commentjsonStr = "{\"dispList\":[{\"insertDate\":\"2017.11.25\",\"sex\":0,\"star\":5,\"userCmt\":\"最高\",\"userId\":6,\"userName\":\"小田\"},{\"insertDate\":\"2017.12.1\",\"sex\":0,\"star\":3,\"userCmt\":\"苦かった\",\"userId\":2,\"userName\":\"田中\"},{\"insertDate\":\"2017.12.5\",\"sex\":0,\"star\":2,\"userCmt\":\"いまいち\",\"userId\":3,\"userName\":\"中橋\"},{\"insertDate\":\"2017.12.4\",\"sex\":0,\"star\":4,\"userCmt\":\"また来ます\",\"userId\":4,\"userName\":\"中野\"},{\"insertDate\":\"2017.12.5\",\"sex\":1,\"star\":1,\"userCmt\":\"まぁまぁ\",\"userId\":5,\"userName\":\"溝辺\"}],\"offset\":0,\"totalNumber\":5}";
+
+
+            try {
+
+                CommentJson cData = new CommentJson();
+                cData = objectMapper.readValue(commentjsonStr,CommentJson.class);
+
+
+                //adapter.addAll(commentData.dispList);
+                //上にインサート
+                int index = cData.dispList.size() -1;
+                for(int i = index; i >= 0 ; i--){
+                    adapter.insert(cData.dispList.get(i), 0);
+                }
+
+                //setCmtDataTimeLine(cData);
+
+                  if (mSwipeRefresh.isRefreshing()) {
+                    mSwipeRefresh.setRefreshing(false);
+                }
+
+            }catch (Exception e){
+
+            }
+
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
+    }
+    //endregion
+
+
 }

@@ -6,6 +6,7 @@ package com.example.aquat.tabscreen;
 
 public class CommentInfo {
 
+/*
 
     //userID
     private int userID;
@@ -36,6 +37,19 @@ public class CommentInfo {
     private String insertDate;
     public String getInsertDate(){return insertDate;}
     public void setInsertDate(String date){this.insertDate = date;}
+*/
+
+    public int userId;
+
+    public String userName;
+
+    public int sex;
+
+    public String userCmt;
+
+    public int star;
+
+    public String insertDate;
 
     //コンストラクタ
     public CommentInfo(){}

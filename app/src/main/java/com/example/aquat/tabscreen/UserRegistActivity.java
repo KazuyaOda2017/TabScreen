@@ -52,6 +52,14 @@ public class UserRegistActivity extends Activity {
 
         }
 
+        if(userInfo.getUserId() != 0){
+            //画面遷移
+            Intent intent = new Intent(getApplication(),TabMainActivity.class);
+            intent.putExtra("userInfo",  userInfo);
+            startActivity(intent);
+            UserRegistActivity.this.finish();//この画面を終了する
+        }
+
         //エディットテキストの設定
         editText = (EditText)findViewById(R.id.edittext_username);
         editText.addTextChangedListener(new TextWatcher() {
@@ -118,6 +126,8 @@ public class UserRegistActivity extends Activity {
                     editor.putString(UserInfo.PREKEY_USERNAME,userInfo.getUserName());
                     editor.putInt(UserInfo.PREKRY_USERID,userInfo.getUserId());
                     editor.putInt(UserInfo.PREKEY_SEX,userInfo.getSex());
+
+                    editor.commit();
 
                 }catch (Exception e){
                 }
