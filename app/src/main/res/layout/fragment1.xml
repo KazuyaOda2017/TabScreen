@@ -21,6 +21,10 @@
 
         </LinearLayout>
     </ScrollView>-->
+    <!--商品情報カードをインクルード-->
+    <include layout="@layout/product_card" android:id="@+id/productCard"/>
+
+    <!--くるくるリロード-->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"

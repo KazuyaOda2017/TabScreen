@@ -69,16 +69,6 @@ public class TabMainActivity extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
 
-        //Json →　デシリアライズ
-        String jsonStr = "[{\"cacthCopy\":\"MAHOT COFFEEの想いが詰まったブレンド\",\"ditail\":\"しっかりとしたビターなコクがあり、赤ワインのような上品なボディー。アクセントに完熟したチェリーのような風味がアフターテイストで楽しめます。,●●●●○,●●○○○,●●○○○,\\\\700\\/100ｇ　\\\\1300\\/200ｇ,\\\\370,\\\\370\",\"productName\":\"MAHOT ブレンド　SONE\"},{\"cacthCopy\":\"当店の新提案。「甘み」を楽しめるコーヒー\",\"ditail\":\"ハチミツのような甘味と紅茶のような風味、やわらかい酸味は、爽やかな朝を演出する一杯にふさわしいコーヒー,●●●○○,●●●○○,●●●●○,\\\\750\\/100ｇ　\\\\1400\\/200ｇ,\\\\370,\\\\370\",\"productName\":\"MAHOT ブレンド　SWEET\"},{\"cacthCopy\":\"焙煎機で焼き上げた特製のミックスナッツ\",\"ditail\":\"この焙煎機の特徴でもある排気の調整によりまるで燻製ナッツのような、ほのかに香るコーヒーの香りをお楽しみいただけます。またナッツとコーヒー豆を一緒に召し上がっていただくと香りの相乗効果でより一層お楽しみいただけます。\\u000a,-,-,-,\\\\500\\/80ｇ,-,-\",\"productName\":\"ミックスナッツ in コーヒー豆\"}]";
-        try {
-            sampleDataList = objectMapper.readValue(jsonStr, new TypeReference<List<ProductInfo>>(){});
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
         inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         mainlayout = (LinearLayout)findViewById(R.id.main_layout);
 

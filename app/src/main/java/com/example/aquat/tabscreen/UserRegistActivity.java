@@ -13,7 +13,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by aquat on 2017/12/11.
@@ -29,12 +34,14 @@ public class UserRegistActivity extends Activity {
     private RadioGroup radioGroup;
     private Button submitBtn;
 
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_regist_layout);
 
-        userInfo = new UserInfo();
+        userInfo = UserInfo.getInstance();
 
         //プリファレンスの読み込み
         try {
@@ -51,6 +58,22 @@ public class UserRegistActivity extends Activity {
         }catch (Exception e){
 
         }
+
+        //テスト用　商品データの受け取り
+        //Json →　デシリアライズ
+        ProductInfo productInfo = new ProductInfo();
+        String jsonStr = "{\"cacthCopy\":\"MAHOT COFFEEの想いが詰まったブレンド\",\"ditail\":\"しっかりとしたビターなコクがあり、赤ワインのような上品なボディー。アクセントに完熟したチェリーのような風味がアフターテイストで楽しめます。,●●●●○,●●○○○,●●○○○,700円\\/100ｇ　1300円\\/200ｇ,370円,370円\",\"productName\":\"MAHOT ブレンド　SONE\"}";
+        try {
+            productInfo = objectMapper.readValue(jsonStr, ProductInfo.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //項目名を取得
+        String index = "商品名,キャッチコピー,詳細,コク,甘味,酸味,販売価格,ドリップコーヒー価格,カフェオレ価格";
+
+        userInfo.ConvertProductInfo(index,productInfo);
+
 
         if(userInfo.getUserId() != 0){
             //画面遷移

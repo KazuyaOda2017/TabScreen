@@ -17,12 +17,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,6 +38,7 @@ public class Fragment1 extends Fragment {
     protected ImageButton submitBtn;
     protected  CommentListAdapter adapter;
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
+    protected ViewGroup vg_productCard;
 
     protected List<ImageButton> starBtnList;
 
@@ -70,6 +74,43 @@ public class Fragment1 extends Fragment {
         getCommentData();
         //取得コメントを表示する
         setCmtDataTimeLine(this.commentData);
+
+        //region 商品情報カード作成
+        try {
+            vg_productCard = (ViewGroup)layout.findViewById(R.id.product_table);
+            //VGにテーブルロウを追加していく
+            HashMap<String,String> productInfoMap = userInfo.getProductInfoMap();
+            //商品名　キャッチコピー　販売価格　ドリップコーヒー価格を表示する
+            int row = 0;
+            for(String index:ProductInfo.cardIndexNames){
+
+                getLayoutInflater().inflate(R.layout.table_row_layout,vg_productCard);
+                TableRow tr = (TableRow)vg_productCard.getChildAt(row);
+
+                TextView indexView = ((TextView)(tr.getChildAt(0)));
+                TextView valueView =  ((TextView)(tr.getChildAt(1)));
+                indexView.setText(index);
+                valueView.setText(productInfoMap.get(index));
+                if(row == 0){
+                    ViewGroup.LayoutParams lp = indexView.getLayoutParams();
+                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)lp;
+                    mlp.setMargins(1,1,1,1);
+                    indexView.setLayoutParams(mlp);
+
+                    lp = valueView.getLayoutParams();
+                    mlp = (ViewGroup.MarginLayoutParams)lp;
+                    mlp.setMargins(0,1,1,1);
+                    valueView.setLayoutParams(mlp);
+
+                }
+                row++;
+            }
+
+
+        }catch (Exception e){
+
+        }
+        //endregion
 
         //region ListViewの設定
         //ListView生成
@@ -286,41 +327,38 @@ public class Fragment1 extends Fragment {
     //endregion
 
     //region コメントデータの追加読み込み
-    private boolean ReloadCommentData(){
-        try{
+    private boolean ReloadCommentData() {
+
+        try {
 
             //追加取得のデータ
             String commentjsonStr = "{\"dispList\":[{\"insertDate\":\"2017.11.25\",\"sex\":0,\"star\":5,\"userCmt\":\"最高\",\"userId\":6,\"userName\":\"小田\"},{\"insertDate\":\"2017.12.1\",\"sex\":0,\"star\":3,\"userCmt\":\"苦かった\",\"userId\":2,\"userName\":\"田中\"},{\"insertDate\":\"2017.12.5\",\"sex\":0,\"star\":2,\"userCmt\":\"いまいち\",\"userId\":3,\"userName\":\"中橋\"},{\"insertDate\":\"2017.12.4\",\"sex\":0,\"star\":4,\"userCmt\":\"また来ます\",\"userId\":4,\"userName\":\"中野\"},{\"insertDate\":\"2017.12.5\",\"sex\":1,\"star\":1,\"userCmt\":\"まぁまぁ\",\"userId\":5,\"userName\":\"溝辺\"}],\"offset\":0,\"totalNumber\":5}";
 
-
-            try {
-
                 CommentJson cData = new CommentJson();
-                cData = objectMapper.readValue(commentjsonStr,CommentJson.class);
+                cData = objectMapper.readValue(commentjsonStr, CommentJson.class);
 
 
                 //adapter.addAll(commentData.dispList);
                 //上にインサート
-                int index = cData.dispList.size() -1;
-                for(int i = index; i >= 0 ; i--){
+                int index = cData.dispList.size() - 1;
+                for (int i = index; i >= 0; i--) {
                     adapter.insert(cData.dispList.get(i), 0);
                 }
 
                 //setCmtDataTimeLine(cData);
 
-                  if (mSwipeRefresh.isRefreshing()) {
+                if (mSwipeRefresh.isRefreshing()) {
                     mSwipeRefresh.setRefreshing(false);
                 }
 
-            }catch (Exception e){
-
-            }
-
-
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
+            if (mSwipeRefresh.isRefreshing()) {
+                mSwipeRefresh.setRefreshing(false);
+            }
             return false;
         }
+
 
     }
     //endregion
