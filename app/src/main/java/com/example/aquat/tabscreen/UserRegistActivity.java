@@ -70,9 +70,9 @@ public class UserRegistActivity extends Activity {
         }
 
         //項目名を取得
-        String index = "商品名,キャッチコピー,詳細,コク,甘味,酸味,販売価格,ドリップコーヒー価格,カフェオレ価格";
+        productInfo.indexInfo = "商品名,キャッチコピー,詳細,コク,甘味,酸味,販売価格,ドリップコーヒー価格,カフェオレ価格";
 
-        userInfo.ConvertProductInfo(index,productInfo);
+        userInfo.ConvertProductInfo(productInfo);
 
 
         if(userInfo.getUserId() != 0){

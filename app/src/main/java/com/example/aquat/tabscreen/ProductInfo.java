@@ -10,11 +10,13 @@ import java.math.BigDecimal;
 
 public class ProductInfo {
 
-    public String productName;
+    public String contentsName;
 
-    public String cacthCopy;
+    public String description;
 
-    public String ditail;
+    public String delInfo;
+
+    public String indexInfo;
 
     //コンストラクタ
     public ProductInfo(){}

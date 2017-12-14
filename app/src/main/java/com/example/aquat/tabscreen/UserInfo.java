@@ -56,21 +56,21 @@ final class UserInfo implements Serializable{
     //endregion
 
     //region コンバーター
-    public boolean ConvertProductInfo(String indexinfo,ProductInfo productInfo){
+    public boolean ConvertProductInfo(ProductInfo productInfo){
 
         try{
 
-            String[] indexlist = indexinfo.split(",",0);
+            String[] indexlist = productInfo.indexInfo.split(",",0);
 
             //商品名
-            addProductInfo(indexlist[0],productInfo.productName);
+            addProductInfo(indexlist[0],productInfo.contentsName);
 
             //キャッチコピー
-            addProductInfo(indexlist[1],productInfo.cacthCopy);
+            addProductInfo(indexlist[1],productInfo.description);
 
             //リストの３列目からは詳細データ
             //詳細
-            String[] values = productInfo.ditail.split(",",-1);
+            String[] values = productInfo.delInfo.split(",",-1);
             //項目分ループする
             for(int i = 2,j = 0; i < indexlist.length;i++,j++){
                 addProductInfo(indexlist[i],values[j]);
