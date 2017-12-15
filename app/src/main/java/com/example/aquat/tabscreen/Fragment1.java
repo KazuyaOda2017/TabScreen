@@ -178,19 +178,20 @@ public class Fragment1 extends Fragment {
                 if(!checkInputText(inputStr)) return;
 
                 //コメント情報を作成
-                /* CommentInfo cInfo = new CommentInfo();
-               cInfo.setUserCmt(inputStr);
-                cInfo.setStar(selectStar);
-                cInfo.setUserName("K.Oda");
-                cInfo.setUserID(1);
+                 CommentInfo cInfo = new CommentInfo();
+               cInfo.userCmt = (inputStr);
+                cInfo.star = (selectStar);
+                cInfo.userName = userInfo.getUserName();
+                cInfo.userId = userInfo.getUserId();
+                cInfo.sex = userInfo.getSex();
                 //日付を取得
                 Date date = new Date();
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm");
                 String date1 = sdf1.format(date);
-                cInfo.setInsertDate(date1);
+                cInfo.insertDate = (date1);
 
                 //コメントを追加する
-                adapter.add(cInfo);*/
+                adapter.add(cInfo);
 
                 //スクロールを一番下へ
                int itemCount = listView.getCount();

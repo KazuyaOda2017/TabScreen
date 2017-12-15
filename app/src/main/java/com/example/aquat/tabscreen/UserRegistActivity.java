@@ -62,7 +62,7 @@ public class UserRegistActivity extends Activity {
         //テスト用　商品データの受け取り
         //Json →　デシリアライズ
         ProductInfo productInfo = new ProductInfo();
-        String jsonStr = "{\"cacthCopy\":\"MAHOT COFFEEの想いが詰まったブレンド\",\"ditail\":\"しっかりとしたビターなコクがあり、赤ワインのような上品なボディー。アクセントに完熟したチェリーのような風味がアフターテイストで楽しめます。,●●●●○,●●○○○,●●○○○,700円\\/100ｇ　1300円\\/200ｇ,370円,370円\",\"productName\":\"MAHOT ブレンド　SONE\"}";
+        String jsonStr = "{\"description\":\"MAHOT COFFEEの想いが詰まったブレンド\",\"delInfo\":\"しっかりとしたビターなコクがあり、赤ワインのような上品なボディー。アクセントに完熟したチェリーのような風味がアフターテイストで楽しめます。,●●●●○,●●○○○,●●○○○,700円\\/100ｇ　1300円\\/200ｇ,370円,370円\",\"contentsName\":\"MAHOT ブレンド　SONE\"}";
         try {
             productInfo = objectMapper.readValue(jsonStr, ProductInfo.class);
         } catch (IOException e) {
