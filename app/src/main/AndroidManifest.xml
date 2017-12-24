@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TabMainActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
 
         </activity>

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by aquat on 2017/12/10.
  */
 
-final class UserInfo implements Serializable{
+public final class UserInfo implements Serializable{
 
     //シングルトンインスタンス
     private static UserInfo instance = new UserInfo();

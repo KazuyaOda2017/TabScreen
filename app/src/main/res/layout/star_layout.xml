@@ -51,4 +51,10 @@
         android:layout_marginLeft="5dp"
         />
 
+    <com.example.aquat.tabscreen.Views.StarView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </com.example.aquat.tabscreen.Views.StarView>
+
 </LinearLayout>

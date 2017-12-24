@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.aquat.tabscreen.Views.CmtImputView;
+import com.example.aquat.tabscreen.Views.EvaluationView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.text.SimpleDateFormat;
@@ -32,7 +34,7 @@ import java.util.List;
  * Created by aquat on 2017/12/06.
  */
 
-public class Fragment1 extends Fragment {
+public class Fragment1 extends Fragment{
     protected ListView listView;
     protected EditText input_text;
     protected ImageButton submitBtn;
@@ -40,7 +42,7 @@ public class Fragment1 extends Fragment {
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     protected ViewGroup vg_productCard;
 
-    protected List<ImageButton> starBtnList;
+   // protected List<ImageButton> starBtnList;
 
     View layout;
 
@@ -138,9 +140,34 @@ public class Fragment1 extends Fragment {
         //endregion
 
         //コメント入力エリアの設定
+        CmtImputView cmtImputView = (CmtImputView)layout.findViewById(R.id.input_area);
+        //コールバックを登録
+        cmtImputView.setOnCallBack(new CmtImputView.CallBackTask() {
+            @Override
+            public void CallBack(int result) {
+
+            }
+
+            @Override
+            public void CallBackTest(int result, CommentInfo commentInfo) {
+                //コメントを追加する
+                adapter.add(commentInfo);
+
+                //スクロール制御
+                //スクロールを一番下へ
+                int itemCount = listView.getCount();
+                listView.setSelection(itemCount -1);
+
+                //テキストボックスからフォーカスを外す
+                layout.requestFocus();
+
+            }
+        });
+
+
         //region エディットテキスト
 
-        input_text = (EditText)layout.findViewById(R.id.edittext);
+      /*  input_text = (EditText)layout.findViewById(R.id.edittext);
         input_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -163,11 +190,11 @@ public class Fragment1 extends Fragment {
                     submitBtn.setEnabled(true);
                 }
             }
-        });
+        });*/
         //endregion
 
         //region 送信ボタン
-        submitBtn = (ImageButton)layout.findViewById(R.id.submit_btn);
+        /*submitBtn = (ImageButton)layout.findViewById(R.id.submit_btn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,14 +236,32 @@ public class Fragment1 extends Fragment {
 
             //送信ボタンを非表示
             submitBtn.setEnabled(false);
-        }
+        }*/
         //endregion
 
         //region 評価ボタン
+       /* try{
+            EvaluationView evaluationView = (EvaluationView)layout.findViewById(R.id.stars);
+
+            //コールバックの登録
+            evaluationView.setOnCallBack(new EvaluationView.CallBackTask() {
+                @Override
+                public void CallBack(int result) {
+                    //resultをフィールドにセット
+                    selectStar = result +1;//評価値はresultの+1
+                }
+            });
+            //初期化
+            evaluationView.changeStarState(2);
+
+        }catch (Exception e){
+
+        }*/
+
         //リストを生成
-        starBtnList = new ArrayList<>();
+       // starBtnList = new ArrayList<>();
         //ViewGroup を取得
-        ViewGroup vg = (ViewGroup)layout.findViewById(R.id.stars);
+       /* ViewGroup vg = (ViewGroup)layout.findViewById(R.id.stars);
         for(int i = 0; i < 5;i++){
 
             //初期表示-
@@ -242,7 +287,7 @@ public class Fragment1 extends Fragment {
 
         //評価ボタンの初期表示-評価３にする
         int star = 3;
-        ChangeStarImage(star);
+        ChangeStarImage(star);*/
 
         //endregion
 
@@ -252,35 +297,7 @@ public class Fragment1 extends Fragment {
 
     }
 
-    //region 評価ボタン入れ替え処理
-    private void ChangeStarImage(int posision) {
 
-        for(int i = 0; i < starBtnList.size();i++){
-
-            ImageButton iBtn = starBtnList.get(i);
-            StarInfo sInfo = (StarInfo)iBtn.getTag();
-
-            //タップ位置までonにする
-            if(i < posision){
-                iBtn.setImageResource(R.drawable.star_on);
-                sInfo.setChecked(true);
-            }else{
-                //タップ位置より後ろをoffにする
-                iBtn.setImageResource(R.drawable.star_off);
-                sInfo.setChecked(false);
-            }
-
-            //選択をフィールドになげる
-            selectStar = posision;
-
-            //評価情報を更新する
-            iBtn.setTag(sInfo);
-        }
-
-        // if(posision == 5) return;
-
-    }
-    //endregion
 
     //region テキスト入力チェック
     private boolean checkInputText(String str) {

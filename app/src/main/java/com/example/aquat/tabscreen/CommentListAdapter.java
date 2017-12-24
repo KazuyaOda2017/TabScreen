@@ -46,7 +46,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentInfo> {
             if(id == info.userId) {
 
                 //同じIDなら再利用
-                return  convertView;
+               // return  convertView;
             }
 
         }

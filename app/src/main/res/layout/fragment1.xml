@@ -54,7 +54,12 @@
 
         </LinearLayout>-->
 
-    <!--テキスト入力エリア-->
-    <include layout="@layout/comment_input_area" android:id="@+id/input_area"/>
+    <!--テキスト入力エリア
+    <include layout="@layout/comment_input_area" android:id="@+id/input_area"/>-->
+    <!--テキスト入力エリアのカスタムView-->
+    <com.example.aquat.tabscreen.Views.CmtImputView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/input_area"></com.example.aquat.tabscreen.Views.CmtImputView>
 
 </LinearLayout>
