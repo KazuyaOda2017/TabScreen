@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,15 +100,19 @@ public class CmtImputView extends LinearLayout{
                 //結果をコールバックする
                 //callBackTask.CallBack(0);
                 callBackTask.CallBackTest(0,cInfo);
-
-
             }
         });
+
+        //送信ボタンを非表示
+        submitBtn.setEnabled(false);
         //endregion
 
         //region 評価ボタン
         try{
             EvaluationView evaluationView = (EvaluationView)layout.findViewById(R.id.stars);
+
+            //Gravityの設定
+            evaluationView.setGravity(Gravity.LEFT);
 
             //コールバックの登録
             evaluationView.setOnCallBack(new EvaluationView.CallBackTask() {

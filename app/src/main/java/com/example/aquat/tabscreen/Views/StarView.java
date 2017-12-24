@@ -17,14 +17,22 @@ import com.example.aquat.tabscreen.R;
 
 public class StarView extends LinearLayout {
 
+    //region 変数
     final ImageButton imageButton;
     private CallBackTask callBackTask;
+    //endregion
 
+    //region 定義
+   /**
+    *評価ボタンの状態
+    **/
     public enum StarState{
         ON,
         OFF,
     }
+    //endregion
 
+    //region プロパティ
     private StarState state;
     public StarState getState(){return this.state;}
     public void setState(StarState state){
@@ -40,7 +48,13 @@ public class StarView extends LinearLayout {
     private int index;
     public int getIndex(){return this.index;}
     public void setIndex(int index){this.index = index;}
+    //endregion
 
+    /**
+     * コンストラクタ
+     * @param context
+     * @param attrs
+     */
     public StarView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
@@ -65,11 +79,33 @@ public class StarView extends LinearLayout {
         imageButton.setOnClickListener(onClickListener);
     }
 
+    /**
+     * 画像サイズを設定する
+     * @param size
+     */
+    public void setImageSize(int size){
+
+        //sizeをint(px)からdipに変換
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        float convertDp = size*scale;
+
+        LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        params.width = (int) convertDp;
+        params.height = (int)convertDp;
+        imageButton.setLayoutParams(params);
+    }
+
+    /**
+     * コールバックを設定する
+     * @param _cbj
+     */
     public void setOnCallBack(CallBackTask _cbj){
         callBackTask = _cbj;
     }
 
-    //コールバックの抽象クラス
+    /**
+     * コールバックタスク抽象クラス
+     */
     public static abstract class CallBackTask{
         abstract public void CallBack(int result);
     }

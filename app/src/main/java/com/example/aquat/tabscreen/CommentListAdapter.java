@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.aquat.tabscreen.Views.EvaluationView;
+
 /**
  * Created by aquat on 2017/12/10.
  */
@@ -54,10 +56,13 @@ public class CommentListAdapter extends ArrayAdapter<CommentInfo> {
         //レイアウトを取得
         //if(convertView == null){
             //自分のコメントかどうか
+            int gravity = Gravity.RIGHT;
             if(info.userId != userInfo.getUserId()){
                 convertView = mInflater.inflate(R.layout.cmt_other,parent,false);
+                gravity = Gravity.LEFT;
             }else {
                 convertView = mInflater.inflate(R.layout.com_self,parent,false);
+
             }
 
                 if(info != null){
@@ -66,7 +71,13 @@ public class CommentListAdapter extends ArrayAdapter<CommentInfo> {
                     TextView tv = (TextView)convertView.findViewById(R.id.cmt);
                     tv.setText(info.userCmt);
                     //評価を設定
-                    ViewGroup vg = (ViewGroup)convertView.findViewById(R.id.stars_mini);
+                    EvaluationView evaluationView = (EvaluationView)convertView.findViewById(R.id.stars_mini);
+                    evaluationView.setImageSize(15);
+                    evaluationView.setGravity(gravity);
+                    evaluationView.changeStarState(info.star - 1);
+                    evaluationView.setMargin(0,0,0,0);
+
+                   /* ViewGroup vg = (ViewGroup)convertView.findViewById(R.id.stars_mini);
 
                     //LinearLayout linearLayout = (LinearLayout)convertView.findViewById(R.id.starsmini_line2);
                     //linearLayout.setGravity(Gravity.RIGHT);
@@ -79,7 +90,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentInfo> {
                         }else{
                             imageButton.setImageResource(R.drawable.star_off);
                         }
-                    }
+                    }*/
                     //ユーザー名
                     TextView userName = (TextView)convertView.findViewById(R.id.user_name);
                     userName.setText(info.userName);

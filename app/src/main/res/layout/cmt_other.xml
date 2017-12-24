@@ -52,10 +52,18 @@
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
         android:orientation="vertical">
-        <include
+
+        <!--評価ボタン-->
+        <com.example.aquat.tabscreen.Views.EvaluationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/stars_mini">
+
+        </com.example.aquat.tabscreen.Views.EvaluationView>
+       <!-- <include
             android:id="@+id/stars_mini"
             layout="@layout/starmini_other_layout"
-            />
+            />-->
 
         <TextView
 

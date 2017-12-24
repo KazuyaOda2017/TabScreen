@@ -15,9 +15,11 @@
         layout="@layout/star_layout" />-->
     <!--評価ボタンのカスタムビュー-->
     <com.example.aquat.tabscreen.Views.EvaluationView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/stars">
+        android:id="@+id/stars"
+
+        >
 
     </com.example.aquat.tabscreen.Views.EvaluationView>
     <!--テキスト入力部分-->

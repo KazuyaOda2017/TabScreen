@@ -3,10 +3,12 @@ package com.example.aquat.tabscreen.Views;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -21,22 +23,58 @@ import java.util.List;
 
 public class EvaluationView extends LinearLayout {
 
+    //region 定義
+
+    /**
+     * コールバック状態
+     */
+    public enum CallBackState{
+        ON,
+        OFF,
+    }
+    //endregion
+
+    //region 変数
     protected List<StarView> starButtons;
     private CallBackTask callBackTask;
+    private LinearLayout linearLayout;
+    //endregion
 
+    //region プロパティ
+    private CallBackState callBackState;
+    public void setCallBackState(CallBackState state){
+        this.callBackState = state;
+    }
+    //endregion
+
+    /**
+     * コンストラクタ
+     * @param context
+     * @param attrs
+     */
     public EvaluationView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
+        //コールバックの初期設定
+        callBackState = CallBackState.ON;
+
         View layout = LayoutInflater.from(context).inflate(R.layout.star_layout2,this);
 
+        linearLayout = (LinearLayout)layout.findViewById(R.id.root_LinearLayout);
 
         starButtons = new ArrayList<StarView>();
         for(int i = 0;i < StarInfo.getStarCount();i++){
             StarView starButton = (StarView) layout.findViewById((Integer) StarInfo.getStarItem(i));
             starButton.setIndex(i);
+
             starButton.setOnCallBack(new StarView.CallBackTask() {
                 @Override
                 public void CallBack(int result) {
+
+                    if(callBackState == CallBackState.OFF){
+                        //タップ時のコールバックをOしない
+                        return;
+                    }
                     //スターボタンのコールバック
                     changeStarState(result);
 
@@ -48,15 +86,64 @@ public class EvaluationView extends LinearLayout {
         }
     }
 
+    /**
+     * 画像サイズを設定する
+     * @param size
+     */
+    public void setImageSize(int size){
+        try{
+
+            for(StarView starView:starButtons){
+                starView.setImageSize(size);
+            }
+
+        }catch (Exception e){
+
+        }
+    }
+
+    /**
+     * Gravityを設定する
+     * @param gravity
+     */
+    public void setGravity(int gravity){
+
+        linearLayout.setGravity(gravity);
+    }
+
+    /**
+     * マージンを設定する
+     * @param marginLeft
+     * @param marginTop
+     * @param marginRight
+     * @param marginBottom
+     */
+    public void setMargin(int marginLeft,int marginTop,int marginRight,int marginBottom){
+        LayoutParams lp = (LayoutParams) linearLayout.getLayoutParams();
+        MarginLayoutParams mlp = (MarginLayoutParams)lp;
+        mlp.setMargins(marginLeft,marginTop,marginRight,marginBottom);
+        linearLayout.setLayoutParams(mlp);
+    }
+
+    /**
+     * コールバックを設定する
+     * @param _cbj
+     */
     public void setOnCallBack(CallBackTask _cbj){
         callBackTask = _cbj;
     }
 
-    //コールバックの抽象クラス
+    /**
+     * コールバックタスクの抽象クラス
+     */
     public static abstract class CallBackTask{
         abstract public void CallBack(int result);
     }
 
+    /**
+     * タップ位置まで画像を入れ替える
+     * @param index
+     */
     public void changeStarState(int index)
     {
         try{

@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_margin="7dp">
+    android:layout_margin="7dp"
+    android:gravity="left"
+    android:id="@+id/root_LinearLayout"
+   >
 
     <com.example.aquat.tabscreen.Views.StarView
         android:layout_width="wrap_content"
